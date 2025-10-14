@@ -47,7 +47,7 @@ for i in range(720):
                     else:
                         newi = i - addi
 
-                pixToCalc.append(imgOr[newi, newj])
+                pixToCalc.append(image[newi, newj])
             
             image[i, j] = meanPixels(pixToCalc)
 
@@ -68,7 +68,7 @@ for j in range(1280):
                     else:
                         newi = i - addi
                 
-                pixToCalc.append(imgOr[newi, newj])
+                pixToCalc.append(image[newi, newj])
             
             image[i, j] = meanPixels(pixToCalc)
 
