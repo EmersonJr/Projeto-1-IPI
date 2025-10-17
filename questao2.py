@@ -35,6 +35,7 @@ def errQuadMed(imgBase, imgTest):
     return np.mean((imgBase.astype(np.float64) - imgTest.astype(np.float64)) ** 2)
  
 image = skimage.io.imread("./photo.jpg")
+imageTest = skimage.io.imread("./photo.jpg")
 image = image.astype(np.float64)
 imageMean = np.zeros_like(image)
 
@@ -51,23 +52,31 @@ for i in range(720):
 imageMean = np.clip(imageMean, 0, 255).astype(np.uint8)
 
 plt.imshow(imageMean)
+plt.axis('off')
 plt.show()
 
 ans, ansAux = 0, (int)(1e9+1)
 
-for fc in range(1, 500):
+lsMen = []
+for fc in range(1, 150):
 
-    imgTest = gaussianPassaBaixa(image, fc)
+    imgTest = gaussianPassaBaixa(image.astype(float), fc)
     imgTest = np.clip(imgTest, 0, 255).astype(np.uint8)
     eqmHip = errQuadMed(imageMean, imgTest)
-
     if eqmHip < ansAux:
         ans = fc
         ansAux = eqmHip
+    lsMen.append([eqmHip, fc])
 
-print(ans, end=" - > ")
-imgAns = gaussianPassaBaixa(image, ans)
+lsMen.sort()
+
+for i in range(0, 5):
+    print(lsMen[i][1], end=" ")
+    print(lsMen[i][0])
+print(ans)
+imgAns = gaussianPassaBaixa(image.astype(float), ans)
 imgAns = np.clip(imgAns, 0, 255).astype(np.uint8)
 print(errQuadMed(imageMean, imgAns))
 plt.imshow(imgAns)
+plt.axis('off')
 plt.show()
